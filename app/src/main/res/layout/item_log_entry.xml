@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#FFFFFF"
+    app:strokeColor="#E0E0E0"
+    app:strokeWidth="1dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Log Item Header (Timestamp) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_history"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="Timestamp Icon"
+                    app:tint="#757575" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/log_timestamp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Date and Time"
+                    android:textSize="14sp"
+                    android:textColor="#757575"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EEEEEE"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Log Details (Grid-like layout) -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:useDefaultMargins="true"
+                android:alignmentMode="alignMargins">
+
+                <!-- User -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_person"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="User Icon"
+                        app:tint="#64B5F6" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="User:"
+                        android:textSize="15sp"
+                        android:textColor="#333333" />
+                </LinearLayout>
+
+                <!-- Zone -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_target"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="Zone Icon"
+                        app:tint="#81C784" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_zone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Zone:"
+                        android:textSize="15sp"
+                        android:textColor="#333333" />
+                </LinearLayout>
+
+                <!-- Mode -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_mode"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="Mode Icon"
+                        app:tint="#FF8A65" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mode:"
+                        android:textSize="15sp"
+                        android:textColor="#333333" />
+                </LinearLayout>
+
+                <!-- Reps -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_reps_count"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="Reps Icon"
+                        app:tint="#A1887F" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_reps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reps:"
+                        android:textSize="15sp"
+                        android:textColor="#333333" />
+                </LinearLayout>
+
+                <!-- Duration -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_timer"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="Duration Icon"
+                        app:tint="#BA68C8" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Duration:"
+                        android:textSize="15sp"
+                        android:textColor="#333333" />
+                </LinearLayout>
+
+            </GridLayout>
+
+        </LinearLayout>
+
+        <!-- Delete Icon (positioned in top-right) -->
+        <ImageView
+            android:id="@+id/delete_log_button"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_delete"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Delete Log Entry"
+            android:clickable="true"
+            android:focusable="true"
+            app:tint="#E57373" />
+
+    </FrameLayout>
+</com.google.android.material.card.MaterialCardView>

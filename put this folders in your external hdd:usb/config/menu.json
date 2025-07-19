@@ -1,0 +1,54 @@
+{
+  "zones": [
+    {
+      "name": "Upper Body",
+      "video": "upper_body.mp4",
+      "modes": [
+        {
+          "name": "Eccentric",
+          "description": "Eccentric training for upper body"
+        }
+      ]
+    },
+    {
+      "name": "Lower Body",
+      "video": "lower_body.mp4",
+      "modes": [
+        {
+          "name": "Eccentric",
+          "description": "Eccentric training for lower body"
+        }
+      ]
+    },
+    {
+      "name": "Back",
+      "video": "back.mp4",
+      "modes": [
+        {
+          "name": "Eccentric",
+          "description": "Eccentric back workout"
+        }
+      ]
+    },
+    {
+      "name": "Shoulders",
+      "video": "shoulders.mp4",
+      "modes": [
+        {
+          "name": "Eccentric",
+          "description": "Eccentric shoulder routine"
+        }
+      ]
+    },
+    {
+      "name": "Sagar",
+      "video": "shoulders.mp4",
+      "modes": [
+        {
+          "name": "Eccentrdic",
+          "description": "Eccentric shoulder routine"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Night theme -->
+    <style name="Theme.PrevenFit" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/black</item>
+
+        <!-- Secondary brand color -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- System bars -->
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:statusBarColor">@color/purple_700</item> <!-- or any dark color -->
+        <item name="android:windowLightStatusBar">false</item> <!-- icons white on dark bg -->
+
+        <item name="android:navigationBarColor">@color/black</item>
+    </style>
+</resources>

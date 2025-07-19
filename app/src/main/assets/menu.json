@@ -1,0 +1,14 @@
+{
+  "zones": [
+    {
+      "name": "Upper Body",
+      "video": "upperbody.mp4",
+      "modes": ["Isometric", "Eccentric"]
+    },
+    {
+      "name": "Lower Body",
+      "video": "lowerbody.mp4",
+      "modes": ["Isometric", "Eccentric", "Dynamic"]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PrevenFit</string>
+
+    <string-array name="mode_options">
+        <item>Eccentric</item>
+        <item>Concentric</item>
+        <item>Isometric</item>
+    </string-array>
+</resources>
