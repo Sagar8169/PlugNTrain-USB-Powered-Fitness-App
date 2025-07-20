@@ -10,20 +10,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView; // Import ImageView
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog; // Import AlertDialog
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-
 import com.google.android.material.textview.MaterialTextView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,6 +31,7 @@ public class ProgressActivity extends AppCompatActivity {
     LinearLayout logContainer;
     SharedPreferences prefs;
     JSONArray logs; // Store logs as a class member for easier modification
+    String currentUserDisplayName; // Store current user's display name
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,31 +39,40 @@ public class ProgressActivity extends AppCompatActivity {
         setContentView(R.layout.activity_progress); // Ensure this is your main layout
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-
         findViewById(R.id.btnExportPdf).setOnClickListener(v -> {
             exportLogsAsPdf();
         });
 
-
-
         logContainer = findViewById(R.id.logContainer);
         prefs = getSharedPreferences("PrevenFitPrefs", MODE_PRIVATE);
 
+        // 🟡 Get current logged in user ID
+        String userId = prefs.getString("user_id", "User");
+
+        // ✅ Retrieve the current user's display name once
+        currentUserDisplayName = prefs.getString("current_user_display_name_" + userId, "Guest User");
+        if (currentUserDisplayName.equals("Guest User")) {
+            // This case should ideally be handled by LoginActivity now, but as a fallback:
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("current_user_display_name_" + userId, "Default User Name");
+            editor.apply();
+            currentUserDisplayName = "Default User Name";
+        }
+
+        Toast.makeText(this, "Current User: " + currentUserDisplayName, Toast.LENGTH_LONG).show();
         loadLogs(); // Call a method to load and display logs
     }
 
     private void loadLogs() {
         logContainer.removeAllViews(); // Clear existing views
-
-        // 🟡 Get current logged in user
+        // 🟡 Get current logged in user ID
         String userId = prefs.getString("user_id", "User");
         String logsJson = prefs.getString("session_logs_" + userId, "[]"); // ✅ User-specific logs
-
         try {
             logs = new JSONArray(logsJson);
             for (int i = logs.length() - 1; i >= 0; i--) {
                 JSONObject log = logs.getJSONObject(i);
-                addLogToView(log, i);
+                addLogToView(log, i); // Pass the log object and index
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -78,6 +84,8 @@ public class ProgressActivity extends AppCompatActivity {
         String logKey = "session_logs_" + currentUserId;
         String logsJson = prefs.getString(logKey, "[]");
 
+        // currentUserDisplayName is already available as a class member
+
         PdfDocument pdfDocument = new PdfDocument();
         Paint paint = new Paint();
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create(); // A4 size
@@ -85,13 +93,11 @@ public class ProgressActivity extends AppCompatActivity {
         Canvas canvas = page.getCanvas();
 
         int x = 40, y = 60;
-
         paint.setTextSize(16);
         paint.setColor(Color.BLACK);
         paint.setFakeBoldText(true);
-        canvas.drawText("Workout Progress Report", x, y, paint);
+        canvas.drawText("Workout Progress Report for " + currentUserDisplayName, x, y, paint); // Use the display name here
         y += 30;
-
         paint.setTextSize(12);
         paint.setFakeBoldText(false);
 
@@ -99,16 +105,20 @@ public class ProgressActivity extends AppCompatActivity {
             JSONArray logs = new JSONArray(logsJson);
             for (int i = logs.length() - 1; i >= 0; i--) {
                 JSONObject log = logs.getJSONObject(i);
-                String user = log.getString("user");
+                String userFromLog = log.optString("user", ""); // Use optString to safely get 'user'
+
+                // ✅ Fallback: If 'user' from log is empty, use the current user's display name
+                String userToDisplayInPdf = userFromLog.isEmpty() ? currentUserDisplayName : userFromLog;
+
                 String zone = log.getString("zone");
                 String mode = log.getString("mode");
                 int reps = log.getInt("reps");
                 int duration = log.getInt("duration");
                 long timestamp = log.getLong("timestamp");
-
                 String date = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault()).format(new Date(timestamp));
 
-                String entry = "📅 " + date + "\n👤 User: " + user + "\n📍 Zone: " + zone +
+                // Display the user name (either from log or fallback)
+                String entry = "📅 " + date + "\n👤 Logged By: " + userToDisplayInPdf + "\n📍 Zone: " + zone +
                         "\n⚙️ Mode: " + mode + "\n🏋️ Reps: " + reps + "\n⏱️ Duration: " + duration + " sec\n";
 
                 for (String line : entry.split("\n")) {
@@ -130,8 +140,7 @@ public class ProgressActivity extends AppCompatActivity {
         }
 
         pdfDocument.finishPage(page);
-
-        File file = new File(getExternalFilesDir(null), "Workout_Progress.pdf");
+        File file = new File(getExternalFilesDir(null), "Workout_Progress_" + currentUserDisplayName.replace(" ", "_") + ".pdf"); // Add name to filename
         try {
             pdfDocument.writeTo(new FileOutputStream(file));
             pdfDocument.close();
@@ -150,16 +159,13 @@ public class ProgressActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(shareIntent, "Share PDF using"));
     }
 
-
-
     private void addLogToView(JSONObject log, final int originalIndex) throws JSONException {
-        String user = log.getString("user");
+        // String user = log.getString("user"); // No longer using this for display on card
         String zone = log.getString("zone");
         String mode = log.getString("mode");
         int reps = log.getInt("reps");
         int duration = log.getInt("duration");
         long timestamp = log.getLong("timestamp");
-
         String formattedDate = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault()).format(new Date(timestamp));
 
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -176,7 +182,8 @@ public class ProgressActivity extends AppCompatActivity {
 
         // Populate the views with data
         tvTimestamp.setText(formattedDate);
-        tvUser.setText("User: " + user);
+        // ✅ Set the user text to the currently logged-in user's display name
+        tvUser.setText("User: " + currentUserDisplayName);
         tvZone.setText("Zone: " + zone);
         tvMode.setText("Mode: " + mode);
         tvReps.setText("Reps: " + reps);
@@ -206,30 +213,16 @@ public class ProgressActivity extends AppCompatActivity {
 
     private void performDelete(int indexToDelete, View viewToRemove) {
         try {
-            // Remove the item from the JSONArray
-            // Note: When deleting from a JSONArray, if you iterate in reverse (as in loadLogs),
-            // the originalIndex will still be valid for direct removal.
-            // If you iterate forwards, you'd need to adjust the index or use a different approach.
-            // For simplicity, we'll just reload all logs after deletion.
             logs.remove(indexToDelete);
-
-            // Save the updated JSONArray back to SharedPreferences
             SharedPreferences.Editor editor = prefs.edit();
             String userId = prefs.getString("user_id", "User");
             editor.putString("session_logs_" + userId, logs.toString());
-
             editor.apply();
-
-            // Remove the view from the LinearLayout
             logContainer.removeView(viewToRemove);
-
-            // Optionally, reload all logs to ensure correct indexing and display
-            // This is simpler than managing individual view removals and index shifts
-            loadLogs();
-
+            loadLogs(); // Reload all logs to ensure correct indexing and display
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle error, e.g., show a Toast message
+            Toast.makeText(this, "Failed to delete log", Toast.LENGTH_SHORT).show();
         }
     }
 }

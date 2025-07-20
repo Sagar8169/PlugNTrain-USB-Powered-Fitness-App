@@ -28,7 +28,6 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_marginBottom="12dp">
-
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
@@ -36,7 +35,6 @@
                     android:layout_marginEnd="8dp"
                     android:contentDescription="Timestamp Icon"
                     app:tint="#757575" />
-
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/log_timestamp"
                     android:layout_width="0dp"
@@ -180,9 +178,7 @@
                         android:textSize="15sp"
                         android:textColor="#333333" />
                 </LinearLayout>
-
             </GridLayout>
-
         </LinearLayout>
 
         <!-- Delete Icon (positioned in top-right) -->
@@ -200,6 +196,5 @@
             android:clickable="true"
             android:focusable="true"
             app:tint="#E57373" />
-
     </FrameLayout>
 </com.google.android.material.card.MaterialCardView>
